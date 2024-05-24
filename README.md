@@ -6,7 +6,7 @@ Use this template as the base of Ansible roles.
 Templating Variables
 --------------------
 
-Replace field that have `# TODO` comments.
+Replace field that have `# TODO` comments and remove the comment.
 
 Supported Versions
 ------------------
