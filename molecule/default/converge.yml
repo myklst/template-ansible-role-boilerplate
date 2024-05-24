@@ -1,0 +1,8 @@
+---
+
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Include Ansible role
+      ansible.builtin.include_role:
+        name: "" # TODO: Replace with Ansible role name

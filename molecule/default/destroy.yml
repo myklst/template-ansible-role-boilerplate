@@ -1,0 +1,47 @@
+---
+
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  tasks:
+    # molecule_instance_config might not be present, therefore ignore errors and default to an empty config
+    - name: Destroy molecule instance(s)
+      openstack.cloud.server:
+        name: "{{ item.instance_id }}"
+        state: absent
+        delete_fip: true
+        verify: false
+      register: server
+      loop: "{{ lookup('file', molecule_instance_config, errors='ignore') | default([], true) | from_yaml | flatten(levels=1) }}"
+      async: 7200
+      poll: 0
+
+    - name: Wait for instance(s) deletion to complete
+      ansible.builtin.async_status:
+        jid: "{{ item.ansible_job_id }}"
+      register: os_jobs
+      until: os_jobs.finished
+      retries: 300
+      loop: "{{ server.results | flatten(levels=1) }}"
+
+    - name: Delete molecule key pair
+      openstack.cloud.keypair:
+        name: "key-pair-{{ molecule_yml['platforms'][0]['name'] }}"
+        verify: false
+        state: absent
+      when: server.results | length > 0
+
+    # Mandatory configuration for Molecule to function.
+
+    - name: Populate instance config
+      ansible.builtin.set_fact:
+        instance_conf: {}
+
+    - name: Dump instance config
+      ansible.builtin.copy:
+        content: "{{ instance_conf | to_json | from_json | to_yaml }}"
+        dest: "{{ molecule_instance_config }}"
+        mode: "0644"
+      when: server.changed | bool  # noqa no-handler

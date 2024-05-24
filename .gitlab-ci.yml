@@ -1,0 +1,78 @@
+include:
+  - project: devops/cicd/gitlab-ci-common
+    ref: $GITLAB_CI_COMMON_VERSION # TODO: Replace with latest gitlab-ci-common version and remove this comment
+    file:
+      - pipeline/standard.gitlab-ci.yml
+      - credentials/main.gitlab-ci.yml
+  - project: devops/cicd/gitlab-ci-common-utils
+    ref: $GITLAB_CI_COMMON_UTILS_VERSION # TODO: Replace with latest gitlab-ci-common-utils version and remove this comment
+    file:
+      - main.gitlab-ci.yml
+
+stages:
+  - molecule:lint
+  - molecule:test
+  - git:tag
+  - pipeline:cleanup
+
+##################################################
+# molecule:lint
+##################################################
+
+molecule_lint:
+  stage: molecule:lint
+  script:
+    - make molecule-lint
+  tags:
+    - devops-dev
+
+##################################################
+# molecule:test
+##################################################
+
+molecule_test:
+  stage: molecule:test
+  extends:
+    - .openstack_my_kl_01_credential
+  variables:
+    OS_AUTH_URL: $OS_MY_KL_01_AUTH_URL
+    OS_USERNAME: $OS_MY_KL_01_USERNAME
+    OS_PASSWORD: $OS_MY_KL_01_PASSWORD
+    OS_DOMAIN_NAME: $OS_MY_KL_01_DOMAIN_NAME
+    OS_TENANT_NAME: $OS_MY_KL_01_TENANT_NAME
+    OS_PROJECT_NAME: $OS_MY_KL_01_PROJECT_NAME
+    OS_NETWORK_CIDR: $OS_MY_KL_01_NETWORK_CIDR
+  script:
+    - make molecule-test
+  tags:
+    - devops-dev
+
+##################################################
+# git:tag
+##################################################
+
+git_tag:
+  stage: git:tag
+  extends:
+    - .gitlab_credential
+  before_script:
+    - !reference [.gitlab_create_tag, script]
+    - !reference [.git_version, script]
+  script:
+    - gitlab_create_tag "$GITLAB_TOKEN" "$(git_version)"
+
+##################################################
+# pipeline:cleanup
+##################################################
+
+pipeline_cleanup:
+  stage: pipeline:cleanup
+  extends:
+    - .gitlab_credential
+  before_script:
+    - !reference [.gitlab_cleanup_pipelines, script]
+  script:
+    - gitlab_cleanup_pipelines "$GITLAB_TOKEN"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG

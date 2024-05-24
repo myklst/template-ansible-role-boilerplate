@@ -1,0 +1,7 @@
+molecule/roles/
+.vscode/
+__pycache__/
+.DS_Store
+*.retry
+*.pyc
+pytestdebug.log
