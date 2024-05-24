@@ -6,7 +6,7 @@ Use this template as the base of Ansible roles.
 Templating Variables
 --------------------
 
-Search for field with `<< xxx >>` and replace with your values.
+Replace field that starts with `<<` and ends with `>>` with the corresponding values.
 
 Supported Versions
 ------------------
