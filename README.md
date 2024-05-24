@@ -20,7 +20,7 @@ Supported Versions
 Ansible role README file structure
 ----------------------------------
 
-Include the below section in your Ansible role README.md:
+Use the below structure for your Ansible role README.md:
 ````
 ansible-role-xxx
 ================
