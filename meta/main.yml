@@ -1,0 +1,9 @@
+---
+
+galaxy_info:
+  namespace: sige
+  role_name: << Ansible role name >>
+  author: << your name >>
+  description: << Ansible role description >>
+  min_ansible_version: 6.9.0
+  license: MIT

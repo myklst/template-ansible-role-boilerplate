@@ -1,0 +1,18 @@
+---
+
+dependency:
+  name: galaxy
+  options:
+    role-file: ${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml
+driver:
+  name: openstack
+platforms:
+  - name: molecule-<< Ansible role >>
+    image: ${MOLECULE_OPENSTACK_IMAGE:-golden-image-<< golden image version >>}
+    flavor: ${MOLECULE_OPENSTACK_FLAVOR:-tiny}
+    network: ${MOLECULE_OPENSTACK_NETWORK:-server_vlan}
+    ssh_user: ${MOLECULE_OPENSTACK_SSH_USER:-<< golden image ssh user >>}
+provisioner:
+  name: ansible
+verifier:
+  name: testinfra
