@@ -2,8 +2,8 @@
 
 galaxy_info:
   namespace: sige
-  role_name: << Ansible role name >>
-  author: << your name >>
-  description: << Ansible role description >>
+  role_name: "" # TODO: Replace with Ansible role name.
+  author: "" # TODO: Replace with your name.
+  description: "" # TODO: Replace with Ansible role description.
   min_ansible_version: 6.9.0
-  license: MIT
+  license: Apache-2.0

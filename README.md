@@ -6,7 +6,7 @@ Use this template as the base of Ansible roles.
 Templating Variables
 --------------------
 
-Replace field that starts with `<<` and ends with `>>` with the corresponding values.
+Replace field that have `# TODO` comments.
 
 Supported Versions
 ------------------

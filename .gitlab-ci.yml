@@ -1,11 +1,11 @@
 include:
   - project: devops/cicd/gitlab-ci-common
-    ref: v0.16.0 # << Replace with latest gitlab-ci-common version and remove this comment >>
+    ref: $GITLAB_CI_COMMON_VERSION # TODO: Replace with latest gitlab-ci-common version and remove this comment
     file:
       - pipeline/standard.gitlab-ci.yml
       - credentials/main.gitlab-ci.yml
   - project: devops/cicd/gitlab-ci-common-utils
-    ref: v0.1.2 # << Replace with latest gitlab-ci-common-utils version and remove this comment >>
+    ref: $GITLAB_CI_COMMON_UTILS_VERSION # TODO: Replace with latest gitlab-ci-common-utils version and remove this comment
     file:
       - main.gitlab-ci.yml
 
