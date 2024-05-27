@@ -5,5 +5,5 @@ galaxy_info:
   role_name: "" # TODO: Replace with Ansible role name.
   author: "" # TODO: Replace with your name.
   description: "" # TODO: Replace with Ansible role description.
-  min_ansible_version: 6.9.0
+  min_ansible_version: 9.6.0
   license: Apache-2.0
