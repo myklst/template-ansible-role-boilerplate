@@ -1,7 +1,7 @@
 ---
 
 galaxy_info:
-  namespace: sige
+  namespace: myklst
   role_name: "" # TODO: Replace with Ansible role name.
   author: "" # TODO: Replace with your name.
   description: "" # TODO: Replace with Ansible role description.
